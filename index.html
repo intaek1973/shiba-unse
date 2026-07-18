@@ -2290,7 +2290,7 @@ async function buyCoins(product){
     coins = data.coins; updateCoins();
     const bal = document.getElementById('shopBalance'); if (bal) bal.textContent = coins;
     toast(`${data.label} 충전 완료다 멍! (+${data.granted}, 잔액 ${coins}개) 🪙`);
-  } catch(e){ console.warn('결제 에러', e); toast('결제 중 문제가 생겼다 멍. 다시 시도해라 멍!'); }
+  } catch(e){ console.warn('결제 에러', e); toast('결제 오류: ' + ((e && (e.message||e.code)) || JSON.stringify(e)).slice(0,120)); }
 }
 document.getElementById('buyCoin10').onclick = ()=> buyCoins('coin10');
 document.getElementById('buyCoin40').onclick = ()=> buyCoins('coin40');

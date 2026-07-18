@@ -346,7 +346,11 @@
   <div class="overlay hidden" id="profilePop">
     <div class="modal"><div class="modal-pad">
       <h2>👤 누구 팔자를 볼 거냐 멍?</h2>
-      <div id="profList" style="margin-top:10px;"></div>
+      <div id="authRow" style="margin:2px 0 6px; padding:10px 12px; background:#FBF3DD; border:1px solid #E3D3A6; border-radius:12px; display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        <div id="authStatus" style="font-size:11.5px; color:#6b5326; font-weight:800; line-height:1.35;">게스트 모드 — 이 기기에만 저장됨</div>
+        <button id="btnKakao" style="background:#FEE500; color:#3a2d00; border:none; border-radius:10px; padding:9px 12px; font-weight:900; font-size:12px; cursor:pointer; white-space:nowrap;">🐤 카카오 연결</button>
+      </div>
+      <div id="profList" style="margin-top:6px;"></div>
       <div id="profAdd" class="hidden">
         <label>이름/별명</label><input type="text" id="npName" maxlength="12" placeholder="예: 우리 엄마">
         <label>생년월일 (양력)</label><div id="npWheels"></div>
@@ -1717,6 +1721,7 @@ function renderProfList(){
 }
 document.getElementById('btnProfile').onclick = ()=>{
   renderProfList();
+  updateAuthUI();
   document.getElementById('profAdd').classList.add('hidden');
   document.getElementById('profAddBtn').classList.remove('hidden');
   document.getElementById('profilePop').classList.remove('hidden');
@@ -2148,6 +2153,37 @@ document.getElementById('shopSub').onclick = async ()=>{
 };
 
 // --- 부트: 익명 로그인 + 서버 데이터 하이드레이션 ---
+// ================= v13: 카카오 로그인 (익명 → 카카오 계정 연결) =================
+let isKakao = false;
+function kakaoIdentity(session){
+  try { const ids = (session && session.user && session.user.identities) || []; return ids.some(i => i.provider === 'kakao'); }
+  catch(e){ return false; }
+}
+function updateAuthUI(){
+  const st = document.getElementById('authStatus'), btn = document.getElementById('btnKakao');
+  if (!st || !btn) return;
+  if (!cloud){ st.textContent = '오프라인(로컬) 모드 — 이 기기에만 저장됨'; btn.textContent = '🐤 카카오 연결'; btn.dataset.mode = 'login'; return; }
+  if (isKakao){ st.innerHTML = '카카오 계정 <b>연결됨</b> 🐤 — 어느 기기에서든 이어보기'; btn.textContent = '로그아웃'; btn.dataset.mode = 'logout'; }
+  else { st.textContent = '게스트 모드 — 이 기기에만 저장됨'; btn.textContent = '🐤 카카오 연결'; btn.dataset.mode = 'login'; }
+}
+async function kakaoAuth(){
+  const btn = document.getElementById('btnKakao');
+  if (!cloud || !sb){ toast('클라우드 연결 후에 된다 멍!'); return; }
+  if (btn && btn.dataset.mode === 'logout'){
+    try { await sb.auth.signOut(); } catch(e){}
+    toast('로그아웃했다 멍. 다시 게스트다 멍!'); setTimeout(()=>location.reload(), 500); return;
+  }
+  try {
+    const { error } = await sb.auth.linkIdentity({ provider: 'kakao', options: { redirectTo: SHARE_APP_URL } });
+    if (error) throw error;
+  } catch(e){
+    console.warn('카카오 연결(link) 실패 → 로그인으로 전환:', (e && e.message) || e);
+    try { const { error } = await sb.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo: SHARE_APP_URL } }); if (error) throw error; }
+    catch(e2){ console.warn('카카오 로그인 실패:', e2); toast('카카오 로그인에 실패했다 멍. 콘솔 설정을 확인하라 멍!'); }
+  }
+}
+document.getElementById('btnKakao').onclick = kakaoAuth;
+
 async function cloudInit(){
   try {
     if (!window.supabase) throw new Error('supabase-js 로드 실패');
@@ -2155,6 +2191,7 @@ async function cloudInit(){
     let { data:{ session } } = await sb.auth.getSession();
     if (!session) { const r = await sb.auth.signInAnonymously(); if (r.error) throw r.error; session = r.data.session; }
     myUid = session.user.id; cloud = true;
+    isKakao = kakaoIdentity(session); updateAuthUI();
     const bal = await sb.rpc('grant_daily');
     if (!bal.error && typeof bal.data === 'number') { coins = bal.data; updateCoins(); }
     const w = await sb.from('wallets').select('is_subscriber').single();

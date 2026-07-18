@@ -2282,7 +2282,8 @@ async function buyCoins(product){
       orderName: p.name,
       totalAmount: p.amount,
       currency: 'CURRENCY_KRW',
-      payMethod: 'CARD'
+      payMethod: 'CARD',
+      customer: { fullName: (user && user.name) || '시바손님', email: 'guest@shiba-unse.app' }
     });
     if (res && res.code != null){ toast('결제 취소/실패다 멍: ' + (res.message || res.code)); return; }
     const { data, error } = await sb.functions.invoke('verify-payment', { body: { paymentId, product } });

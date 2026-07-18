@@ -237,7 +237,7 @@
   .toast { position:absolute; bottom:96px; left:50%; transform:translateX(-50%); background:#3d2c14; color:#F3E7C8; font-size:12.5px; padding:9px 16px; border-radius:20px; opacity:0; transition:opacity .3s; z-index:40; pointer-events:none; white-space:nowrap; }
   .toast.show { opacity:.95; }
   /* ===== 대문(인트로) ===== */
-  .gate { position:absolute; inset:0; z-index:200; background:#EAD9BC url('https://d8j0ntlcm91z4.cloudfront.net/user_3F4bxxK6vdTmFI9YzzbcvFKIDcn/hf_20260718_125801_72743b38-f4b1-4c80-8cff-35105a1c286d_min.webp') center center/cover no-repeat; display:flex; align-items:flex-end; justify-content:center; cursor:pointer; transition:opacity .95s ease, transform .95s ease; }
+  .gate { position:absolute; inset:0; z-index:200; background:#EAD9BC url('https://d8j0ntlcm91z4.cloudfront.net/user_3F4bxxK6vdTmFI9YzzbcvFKIDcn/hf_20260718_125801_72743b38-f4b1-4c80-8cff-35105a1c286d_min.webp') center center/cover no-repeat; display:flex; align-items:flex-end; justify-content:center; cursor:pointer; transition:opacity 1s ease, transform 1s ease; }
   .gate::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 52%, rgba(35,20,8,.6) 100%); pointer-events:none; }
   .gate.enter { opacity:0; transform:scale(1.05); pointer-events:none; }
   .gate.punch { animation:gatePunch .5s cubic-bezier(.2,.9,.3,1.55) both; }
@@ -779,7 +779,7 @@ function playGate(){
   const say = document.getElementById('gateSay');
   if (say) { const _ln = GATE_LINES[Math.floor(Math.random()*GATE_LINES.length)]; say.innerHTML = _ln.split(/\n|(?<=[.?!])\s+/).filter(Boolean).join('<br>'); }
   clearTimeout(g._t);
-  g._t = setTimeout(()=>{ g.classList.add('enter'); setTimeout(()=>{ g.style.display='none'; }, 1000); }, 1400);
+  g._t = setTimeout(()=>{ g.classList.add('enter'); setTimeout(()=>{ g.style.display='none'; }, 1000); }, 2000);
 }
 
 // ================= 상태 =================

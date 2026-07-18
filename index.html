@@ -232,12 +232,13 @@
   .rs-details summary { cursor:pointer; font-weight:800; }
   .rs-actions { display:flex; gap:8px; margin-top:13px; }
   .rs-actions button { flex:1; border:none; border-radius:11px; padding:12px; font-weight:900; font-size:12.5px; cursor:pointer; }
-  .rs-copy { background:#3d2c14; color:#F3E7C8; } .rs-ok { background:#E7D9B4; color:#5d431f; }
+  .rs-copy { background:#3d2c14; color:#F3E7C8; } .rs-ok { background:#E7D9B4; color:#5d431f; } .rs-kakao { background:#FEE500; color:#3a2d00; }
   #resultSheet .modal { max-width:330px; }
   .toast { position:absolute; bottom:96px; left:50%; transform:translateX(-50%); background:#3d2c14; color:#F3E7C8; font-size:12.5px; padding:9px 16px; border-radius:20px; opacity:0; transition:opacity .3s; z-index:40; pointer-events:none; white-space:nowrap; }
   .toast.show { opacity:.95; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="phone">
@@ -947,20 +948,37 @@ $('stampDetail').onclick = e => { e.stopPropagation(); if (lastResult && lastRes
 function busy(on){ ['btnToday','btnMoney','btnLove','btnWork','btnPeople','btnHealth','btnMonth','btnYear'].forEach(id=>$(id).disabled=on);
   if (!on && window._fromHome) document.getElementById('homeBack').classList.remove('hidden');
   if (on) document.getElementById('homeBack').classList.add('hidden'); }
+// ================= v13: LLM 실시간 독설 (Edge Function 'roast', 실패 시 템플릿 폴백) =================
+async function llmRoast(payload, fallback){
+  try {
+    if (!cloud || !sb || !sb.functions) return fallback;
+    const { data, error } = await Promise.race([
+      sb.functions.invoke('roast', { body: payload }),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')), 9000))
+    ]);
+    if (error) throw error;
+    if (data && Array.isArray(data.lines) && data.lines.length >= 3)
+      return data.lines.slice(0,3).map(x=>String(x));
+    return fallback;
+  } catch(e){ console.warn('LLM 독설 실패 → 템플릿 폴백:', (e && e.message) || e); return fallback; }
+}
+function llmCtx(extra){ return Object.assign({ name: user && user.name }, extra); }
+
 function runFortune(kind){
   busy(true); hideStamp(); document.getElementById('tempBtn').classList.add('hidden');
   setChar('think');
   say([{text:'기다려라 멍…. 신령님한테 네 사주 조회 넣었다 멍. 🔮', emotion:'think'}]);
-  setTimeout(()=>{ try{ kind(); }catch(e){ console.error(e);
-    say([{text:FALLBACK_MSG, emotion:'doom', anim:'char-shake'}], ()=>busy(false)); } }, 1600);
+  setTimeout(()=>{ Promise.resolve().then(kind).catch(e=>{ console.error(e);
+    say([{text:FALLBACK_MSG, emotion:'doom', anim:'char-shake'}], ()=>busy(false)); }); }, 1100);
 }
 
 // ================= 기능 1: 오늘의 운세 =================
 function doToday(){
-  runFortune(()=>{
+  runFortune(async ()=>{
     const now = new Date();
     const f = todayFortune(user.saju, now.getFullYear(), now.getMonth()+1, now.getDate());
-    const L = ROAST_TODAY[f.sipseong];
+    let L = ROAST_TODAY[f.sipseong];
+    L = await llmRoast(llmCtx({ kind:'today', sipseong:f.sipseong, sipseong_desc:SS_DESC[f.sipseong], iljin:f.iljinName, relation:f.relation, score:f.score, day_element:STEM_ELEM[user.saju.day.stem] }), L);
     const em = f.score>=78?'lucky':(f.score>=50?'roast':'doom');
     const anim = f.score>=78?'char-bounce':(f.score>=50?'char-pop':'char-shake');
     lastResult = { kind:'오늘의 운세', key:'today', lines:[L[0],L[1],L[2]], meta:`오늘 일진 ${f.iljinName} · ${f.sipseong} · 지지 ${f.relation}`, score:f.score, fortune:f,
@@ -975,7 +993,7 @@ function doToday(){
 }
 // ================= 기능 2: 재물운 =================
 function doMoney(){
-  runFortune(()=>{
+  runFortune(async ()=>{
     const now = new Date();
     const f = todayFortune(user.saju, now.getFullYear(), now.getMonth()+1, now.getDate());
     let adj = 0;
@@ -983,7 +1001,8 @@ function doMoney(){
     if (f.sipseong==='겁재'||f.sipseong==='비견') adj = -20;
     const m = Math.max(6, Math.min(97, f.score + adj));
     const tier = m>=70?'high':(m>=40?'mid':'low');
-    const L = ROAST_MONEY[tier];
+    let L = ROAST_MONEY[tier];
+    L = await llmRoast(llmCtx({ kind:'money', sipseong:f.sipseong, sipseong_desc:SS_DESC[f.sipseong], iljin:f.iljinName, relation:f.relation, score:m, tier, day_element:STEM_ELEM[user.saju.day.stem], extra:{ '오늘의 재물 부적템': LUCKY_ITEMS[(m + new Date().getDate())%12] } }), L);
     const em = tier==='high'?'lucky':(tier==='mid'?'roast':'doom');
     lastResult = { kind:'재물운', key:'money', lines:[L[0],L[1],L[2]], meta:`오늘 일진 ${f.iljinName} · ${f.sipseong}`, score:m, fortune:f,
       rows:[['기본 기세 ('+f.sipseong+')', f.breakdown.base], ['지지 관계 ('+f.relation+')', f.breakdown.relAdj], ['일진 변동', f.breakdown.seed], ['재성/비겁 보정', adj]] };
@@ -1008,11 +1027,12 @@ $('pGo').onclick = ()=>{
   const pd = pDateCtl.getDate();
   $('loveEntry').classList.add('hidden');
   spend('love', ()=>
-  runFortune(()=>{
+  runFortune(async ()=>{
     const s2 = computeSaju(pd.y, pd.m, pd.d, null);
     const g = gunghap(user.saju, s2);
     const tier = g.doom>=80?'doom':(g.doom>=58?'risky':(g.doom>=38?'soso':'bless'));
-    const L = ROAST_GUNGHAP[tier];
+    let L = ROAST_GUNGHAP[tier];
+    L = await llmRoast(llmCtx({ kind:'love', sipseong:g.sipseong, relation:g.dayRel, score:g.doom, tier, extra:{ '상대 이름/호칭': pn, '일지 관계': g.dayRel, '연지 관계': g.yearRel } }), L);
     const em = tier==='bless'?'lucky':(tier==='doom'?'doom':'roast');
     lastResult = { kind:`궁합 (${user.name} ✕ ${pn})`, key:'love', lines:[L[0],L[1],L[2]], meta:`일지 ${g.dayRel} · 연지 ${g.yearRel} · ${g.sipseong}`, score:g.doom, gung:g, partner:{name:pn, saju:s2},
       rows:[['기본치', g.breakdown.base], ['일지 관계 ('+g.dayRel+')', g.breakdown.dayAdj], ['연지 관계 ('+g.yearRel+')', g.breakdown.yearAdj], ['기운 상성 ('+g.sipseong+')', g.breakdown.ssAdj], ['상호 변동', g.breakdown.seedAdj]] };
@@ -1075,7 +1095,7 @@ function weakElement(saju){
 function tierOf(score){ return score>=70?'high':(score>=42?'mid':'low'); }
 function makeGeneric(kind, baseMap, relMap, tpl, stampLab, stampColor, extraRow){
   return function(){
-    runFortune(()=>{
+    runFortune(async ()=>{
       const now = new Date();
       const f = todayFortune(user.saju, now.getFullYear(), now.getMonth()+1, now.getDate());
       const base = baseMap ? baseMap[f.sipseong] : 70;
@@ -1084,6 +1104,7 @@ function makeGeneric(kind, baseMap, relMap, tpl, stampLab, stampColor, extraRow)
       const tier = tierOf(score);
       let L = tpl[tier].slice();
       if (kind==='건강운') { const org = ORGAN_MAP[weakElement(user.saju)]; L = L.map(s=>s.replace('{organ}', org)); }
+      L = await llmRoast(llmCtx({ kind:({'업무운':'work','대인관계운':'people','건강운':'health'})[kind], sipseong:f.sipseong, sipseong_desc:SS_DESC[f.sipseong], iljin:f.iljinName, relation:f.relation, score, day_element:STEM_ELEM[user.saju.day.stem], extra: kind==='건강운' ? { '주의 장기': ORGAN_MAP[weakElement(user.saju)] } : undefined }), L);
       const em = tier==='high'?'lucky':(tier==='mid'?'roast':'doom');
       const rows = [['기본 기세 ('+f.sipseong+')', base], ['지지 관계 ('+f.relation+')', relAdj], ['일진 변동', f.breakdown.seed]];
       if (extraRow) rows.push(extraRow);
@@ -1158,7 +1179,7 @@ const TEMP_LINES = {
          "…오늘만큼은 서로 없는 사람처럼 지내라 멍. 피하는 게 지는 게 아니라 이기는 거다 멍!"]
 };
 function runTemp(){
-  runFortune(()=>{
+  runFortune(async ()=>{
     const now = new Date();
     const tIdx = dayPillarIndex(now.getFullYear(), now.getMonth()+1, now.getDate());
     const tBranch = tIdx % 12;
@@ -1167,7 +1188,9 @@ function runTemp(){
     const seed = (tIdx*5 + user.saju.day.branch*3 + lastPartner.saju.day.branch*7) % 17 - 8;
     const temp = Math.max(2, Math.min(98, 50 + TEMP_REL[myRel] + TEMP_REL[pRel] + seed));
     const tier = temp>=75?'hot':(temp>=45?'warm':(temp>=25?'cold':'ice'));
-    const L = TEMP_LINES[tier].map(s=>s.replace('{t}', temp));
+    let L = TEMP_LINES[tier].map(s=>s.replace('{t}', temp));
+    const _llm = await llmRoast(llmCtx({ kind:'temp', score:temp, tier, extra:{ '상대 이름/호칭': lastPartner.name, '관계 온도': temp+'도', '내 지지관계': myRel, '상대 지지관계': pRel } }), null);
+    if (_llm && _llm.length >= 3) L = [_llm[0], _llm[2]];
     const em = tier==='hot'?'lucky':(tier==='warm'?'def':(tier==='cold'?'roast':'doom'));
     lastResult = { kind:`오늘의 관계 온도 (${user.name} ✕ ${lastPartner.name})`, key:'temp', lines:[L[0],L[1]], score:temp,
       rows:[['기본 온도', 50], ['내 일지 ✕ 오늘 ('+myRel+')', TEMP_REL[myRel]], ['상대 일지 ✕ 오늘 ('+pRel+')', TEMP_REL[pRel]], ['일진 변동', seed]] };
@@ -1749,6 +1772,42 @@ function markSeen(key){ try { const m = seenMap(); if (!m[key]) { m[key] = true;
 function saveResult(r){ if (!r || !r.key) return; try { const m = seenMap(); m[r.key] = r; localStorage.setItem(seenKey(), JSON.stringify(m)); } catch(e){} }
 function getResult(key){ return seenMap()[key]; }
 function seenToday(key){ return seenMap()[key] !== undefined; }
+// ================= v13: 카카오톡 공유 카드 =================
+// TODO: developers.kakao.com 에서 발급한 JavaScript 키로 교체 (플랫폼>Web 사이트 도메인 등록 필수)
+const KAKAO_JS_KEY = 'f04aadb0fe1d23c7154cb949c5df4be5';
+const SHARE_APP_URL = 'https://shiba-unse.vercel.app';
+function kakaoReady(){
+  try {
+    if (window.Kakao && KAKAO_JS_KEY && KAKAO_JS_KEY.slice(0,5) !== 'YOUR_' && !window.Kakao.isInitialized())
+      window.Kakao.init(KAKAO_JS_KEY);
+  } catch(e){ console.warn('Kakao init 실패:', e); }
+  return !!(window.Kakao && window.Kakao.isInitialized && window.Kakao.isInitialized());
+}
+function shareKakao(r, lines, sc){
+  const strip = t => (t||'').replace(/<[^>]+>/g,'').replace(/\n/g,' ').trim();
+  const quote = strip(lines[0]);
+  const tier = sc>=78 ? 'lucky' : (sc>=42 ? 'roast' : 'doom');
+  const img = IMG[tier] || IMG.def;
+  if (!kakaoReady()){
+    const txt = `[킹받는 시바도사] ${r.kind} — ${r.num||sc}\n"${quote}"\n${SHARE_APP_URL}`;
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(()=>toast('카톡 키 설정 전이라 텍스트만 복사했다 멍! 단톡방에 박제해라 멍!'));
+    else toast('카톡 공유는 키 설정 후에 된다 멍!');
+    return;
+  }
+  try {
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: `[킹받는 시바도사] ${r.kind} · ${r.num||sc}점`,
+        description: quote,
+        imageUrl: img,
+        link: { mobileWebUrl: SHARE_APP_URL, webUrl: SHARE_APP_URL }
+      },
+      buttons: [{ title: '나도 팩폭 맞으러 가기 🐕', link: { mobileWebUrl: SHARE_APP_URL, webUrl: SHARE_APP_URL } }]
+    });
+  } catch(e){ console.warn('카톡 공유 실패:', e); toast('카톡 공유에 실패했다 멍. 잠시 후 다시 해봐라 멍!'); }
+}
+
 // ===== 결과지 팝업 =====
 function openResultSheet(r){
   if (!r) return;
@@ -1773,12 +1832,14 @@ function openResultSheet(r){
     ${rows?`<details class="rs-details"><summary>지수 산출 근거</summary><table class="bd-table" style="margin-top:6px;">${rows}<tr class="bd-total"><td>최종</td><td>${sc}</td></tr></table></details>`:''}
     <div class="rs-actions">
       <button class="rs-ok" id="rsOk">닫기</button>
-      <button class="rs-copy" id="rsCopy">📋 자랑하기</button>
+      <button class="rs-copy" id="rsCopy">📋 복사</button>
+      <button class="rs-kakao" id="rsKakao">🐤 카톡</button>
     </div>`;
   document.getElementById('rsCopy').onclick = ()=>{
     const txt = `[킹받는 시바도사] ${r.kind} — ${r.num||sc}\n"${(lines[0]||'').replace(/<[^>]+>/g,'')}"\n#시바도사 #팩폭사주`;
     navigator.clipboard?.writeText(txt).then(()=>toast('복사 완료다 멍! 단톡방에 박제해라 멍!'));
   };
+  document.getElementById('rsKakao').onclick = ()=> shareKakao(r, lines, sc);
   document.getElementById('rsOk').onclick = ()=>document.getElementById('resultSheet').classList.add('hidden');
   document.getElementById('resultSheet').classList.remove('hidden');
   setTimeout(()=>document.querySelectorAll('#rsBody .g-bar > div[data-w]').forEach(d=>d.style.width=d.dataset.w+'%'), 80);

@@ -2174,11 +2174,11 @@ async function kakaoAuth(){
     toast('로그아웃했다 멍. 다시 게스트다 멍!'); setTimeout(()=>location.reload(), 500); return;
   }
   try {
-    const { error } = await sb.auth.linkIdentity({ provider: 'kakao', options: { redirectTo: SHARE_APP_URL } });
+    const { error } = await sb.auth.linkIdentity({ provider: 'kakao', options: { redirectTo: SHARE_APP_URL, scopes: 'profile_nickname' } });
     if (error) throw error;
   } catch(e){
     console.warn('카카오 연결(link) 실패 → 로그인으로 전환:', (e && e.message) || e);
-    try { const { error } = await sb.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo: SHARE_APP_URL } }); if (error) throw error; }
+    try { const { error } = await sb.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo: SHARE_APP_URL, scopes: 'profile_nickname' } }); if (error) throw error; }
     catch(e2){ console.warn('카카오 로그인 실패:', e2); toast('카카오 로그인에 실패했다 멍. 콘솔 설정을 확인하라 멍!'); }
   }
 }

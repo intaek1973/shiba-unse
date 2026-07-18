@@ -239,6 +239,7 @@
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </head>
 <body>
 <div class="phone">
@@ -294,7 +295,14 @@
     <div class="h-sec"><div class="h-title">🐾 오늘의 운세</div><div class="h-row" id="rowDaily"></div></div>
     <div class="h-sec"><div class="h-title">🔮 프리미엄 감정소</div><div class="h-row" id="rowPrem"></div></div>
     <div class="h-sec"><div class="h-title">👤 내 사주</div><div class="mycard" id="myCard"></div></div>
-    <div style="height:20px;"></div>
+    <div style="margin-top:20px; padding:14px 12px 26px; border-top:1px solid #e3d3a6; font-size:10px; color:#9a8358; line-height:1.65; text-align:center;">
+      <b>헤파이토스</b> · 대표 박인택 · 사업자등록번호 444-07-01697<br>
+      경기도 수원시 권선구 권중로 110, 607동 403호<br>
+      ☎ 010-9655-6197 · intaek1973@gmail.com · 통신판매업신고 준비 중<br>
+      <a href="#" style="color:#8a6a35; text-decoration:underline;" onclick="event.preventDefault(); document.getElementById('legalModal').classList.remove('hidden');">이용약관</a> ·
+      <a href="#" style="color:#8a6a35; text-decoration:underline;" onclick="event.preventDefault(); document.getElementById('legalModal').classList.remove('hidden');">개인정보처리방침</a> ·
+      <a href="#" style="color:#8a6a35; text-decoration:underline;" onclick="event.preventDefault(); document.getElementById('legalModal').classList.remove('hidden');">사업자정보</a>
+    </div>
   </div>
   <button class="home-back hidden" id="homeBack">🏠 홈으로</button>
 
@@ -334,11 +342,81 @@
       <div class="note" style="margin-top:10px;">가격표: 오늘 🪙1 · 업무/대인/건강 🪙2 · 재물 🪙3 · 궁합 🪙4 · 온도/감정서 🪙5<br>📅 이달의 운세 🪙15 (월 1회 구매·한 달 재열람) · 🗓️ 신년 대감정 🪙30 (연 1회 구매·일 년 재열람)<br>첫 방문 10개 · 매일 출석 +5개 적립 · 보유 상한 60개 — 아끼면 월운 3일, 신년은 6일이면 모은다 멍</div>
       <button class="start-btn" id="shopCharge" style="background:linear-gradient(#C9A227,#9A7A0F); margin-top:8px;">🪙 엽전 10개 충전 (프로토타입 무료)</button>
       <button class="start-btn" id="shopAd" style="background:linear-gradient(#5B7A99,#3A5673); margin-top:8px;">📺 광고 보고 엽전 +3 (오늘 0/3회)</button>
+      <div class="shop-item" style="margin-top:12px; border-top:1px dashed #c9b070; padding-top:12px;">💳 <b>엽전 충전 (실결제)</b>
+        <button class="start-btn" id="buyCoin10" style="margin-top:8px; background:linear-gradient(#C0392B,#8E2A20);">🪙 주머니 10개 · 1,200원</button>
+        <button class="start-btn" id="buyCoin40" style="margin-top:8px; background:linear-gradient(#7A1F1A,#5A1712);">🪙 꾸러미 40개 · 3,900원</button></div>
       <div class="shop-item" style="margin-top:10px;">🐕 <b>단골 패스</b> — 월 4,900원 (모의)<br>
         <span style="font-size:11px; color:#a5854a;">본인 일일 운세 무제한 · 광고 제거 · 감정서 포함 · 월운 자동 열람 · 신년 대감정 50%</span><br>
         <button class="start-btn" id="shopSub" style="margin-top:8px; padding:10px;">🐕 단골 패스 가입 (모의)</button></div>
       <div class="note">정식 버전: 엽전 주머니 10개 1,200원 · 꾸러미 35+5개 3,900원 · 구독 월 4,900원</div>
+      <div style="margin-top:12px; font-size:9.5px; color:#9a8358; line-height:1.55; text-align:center; border-top:1px solid #e3d3a6; padding-top:8px;">
+        헤파이토스 · 대표 박인택 · 사업자등록번호 444-07-01697<br>
+        경기도 수원시 권선구 권중로 110, 607동 403호 · ☎ 010-9655-6197<br>
+        <a href="#" style="color:#8a6a35; text-decoration:underline;" onclick="event.preventDefault(); document.getElementById('legalModal').classList.remove('hidden');">이용약관 · 개인정보처리방침 · 사업자정보</a>
+      </div>
       <div style="text-align:center; margin-top:8px;"><a href="#" id="shopCancel" style="font-size:12px; color:#8a6a35;">다음에 볼래</a></div>
+    </div></div>
+  </div>
+
+  <!-- 법적 고지: 이용약관·개인정보처리방침·사업자정보 -->
+  <div class="overlay hidden" id="legalModal">
+    <div class="modal"><div class="modal-pad" style="max-height:80vh; overflow-y:auto;">
+      <h2 style="text-align:center;">📜 약관 및 정책</h2>
+      <details open style="margin-top:10px;"><summary style="font-weight:900; cursor:pointer; padding:6px 0;">🏢 사업자 정보</summary>
+        <div style="font-size:12px; color:#5d4a2a; line-height:1.75; padding:4px 2px;">상호: 헤파이토스<br>대표자: 박인택<br>사업자등록번호: 444-07-01697<br>통신판매업신고번호: 준비 중<br>사업장 소재지: 경기도 수원시 권선구 권중로 110, 607동 403호<br>연락처: 010-9655-6197<br>이메일: intaek1973@gmail.com</div></details>
+      <details style="margin-top:8px;"><summary style="font-weight:900; cursor:pointer; padding:6px 0;">📄 이용약관</summary>
+        <div style="font-size:11.5px; color:#5d4a2a; line-height:1.6; padding:4px 2px; white-space:pre-line;">제1조(목적) 본 약관은 헤파이토스(이하 '회사')가 제공하는 '오늘도 킹받는 시바도사'(이하 '서비스')의 이용조건 및 절차, 회사와 이용자의 권리·의무를 규정함을 목적으로 합니다.
+
+제2조(정의) ① '서비스'란 사주명리 기반 운세 콘텐츠 제공 서비스를 말합니다. ② '엽전'이란 서비스 내 유료 콘텐츠 이용을 위한 사이버 재화를 말합니다. ③ '이용자'란 본 약관에 따라 서비스를 이용하는 자를 말합니다.
+
+제3조(약관의 효력·변경) 회사는 본 약관을 서비스 화면에 게시하며, 관련 법령을 위반하지 않는 범위에서 변경할 수 있고, 변경 시 적용일자와 사유를 명시하여 공지합니다.
+
+제4조(서비스 제공) ① 서비스는 연중무휴 제공을 원칙으로 하나 점검·장애 등의 사유로 중단될 수 있습니다. ② 운세 콘텐츠는 오락·참고용이며 의학·법률·재무 등 전문적 판단을 대체하지 않습니다.
+
+제5조(유료 서비스·결제) ① 이용자는 엽전을 구매하여 유료 콘텐츠를 이용할 수 있습니다. ② 결제는 회사가 정한 결제대행사를 통해 이루어지며 표시 금액에는 부가세가 포함됩니다.
+
+제6조(청약철회·환불) ① 이용자는 결제일로부터 7일 이내에 청약철회를 할 수 있습니다. 다만 이미 콘텐츠 열람에 사용(소진)한 엽전 및 즉시 이용으로 효용이 발생한 콘텐츠는 전자상거래법 제17조 제2항에 따라 청약철회가 제한될 수 있습니다. ② 미사용 엽전은 전액 환불되며, 환불은 원 결제수단으로 취소 처리됩니다. ③ 환불 요청은 고객센터 이메일로 접수합니다.
+
+제7조(이용자 의무) 이용자는 타인의 정보를 도용하거나 서비스 운영을 방해하는 행위를 하여서는 안 됩니다.
+
+제8조(면책) ① 회사는 천재지변, 이용자 귀책 등 회사의 책임 없는 사유로 인한 손해에 대해 책임지지 않습니다. ② 운세 콘텐츠는 참고 정보이며 이를 근거로 한 이용자의 판단·결정에 대해 회사는 책임을 지지 않습니다.
+
+제9조(준거법·관할) 본 약관은 대한민국 법령에 따르며, 분쟁은 관계 법령이 정한 관할 법원을 따릅니다.
+
+부칙: 본 약관은 2026년 7월 18일부터 시행합니다.</div></details>
+      <details style="margin-top:8px;"><summary style="font-weight:900; cursor:pointer; padding:6px 0;">🔒 개인정보처리방침</summary>
+        <div style="font-size:11.5px; color:#5d4a2a; line-height:1.6; padding:4px 2px; white-space:pre-line;">헤파이토스(이하 '회사')는 개인정보 보호법에 따라 이용자의 개인정보를 보호하고 관련 고충을 신속히 처리하기 위해 다음의 처리방침을 수립·공개합니다.
+
+1. 수집 항목 및 방법
+- 필수: 생년월일·출생시간, 이름 또는 별명 (사주 계산·운세 제공)
+- 카카오 로그인 시: 카카오 회원식별자, 프로필 닉네임/이미지 (계정 연동)
+- 결제 시: 결제 승인 정보(거래ID·금액·결제수단). 카드번호 등 결제 민감정보는 결제대행사가 처리하며 회사는 저장하지 않습니다.
+- 자동 수집: 서비스 이용 내역, 접속 로그, 기기 식별 정보
+수집 방법: 서비스 내 직접 입력, 카카오 로그인, 결제 과정.
+
+2. 이용 목적
+운세 콘텐츠 제공 및 사주 산출, 회원 식별·계정 관리, 유료 서비스 결제·정산, 문의 응대, 서비스 개선.
+
+3. 보유·이용 기간
+회원 탈퇴 또는 목적 달성 시 지체 없이 파기합니다. 다만 전자상거래법 등 관련 법령에 따라 결제·계약 기록은 5년간 보존합니다.
+
+4. 처리위탁 및 국외 이전
+- Supabase, Inc. (미국): 데이터베이스·인증·호스팅
+- 주식회사 코리아포트원(PortOne, 대한민국): 결제 처리
+- Anthropic PBC (미국): 운세 콘텐츠 생성을 위한 AI 처리 — 위탁 항목은 사주 산출 정보(생년월일 기반 십성·일진 등)이며 이름·연락처 등 식별정보는 전송하지 않습니다.
+이용자는 위탁·국외 이전에 동의하지 않을 권리가 있으나, 이 경우 서비스 이용이 제한될 수 있습니다.
+
+5. 이용자의 권리
+이용자는 언제든지 개인정보 열람·정정·삭제·처리정지를 요청할 수 있으며 회사는 지체 없이 조치합니다.
+
+6. 파기
+보유기간 경과·목적 달성 시 전자적 파일은 복구 불가능한 방법으로 삭제합니다.
+
+7. 개인정보 보호책임자
+성명: 박인택 / 연락처: 010-9655-6197 / 이메일: intaek1973@gmail.com
+
+본 방침은 2026년 7월 18일부터 적용됩니다.</div></details>
+      <div style="text-align:center; margin-top:12px;"><a href="#" style="font-size:12px; color:#8a6a35;" onclick="event.preventDefault(); document.getElementById('legalModal').classList.add('hidden');">닫기</a></div>
     </div></div>
   </div>
 
@@ -359,6 +437,7 @@
       </div>
       <button class="start-btn" id="profAddBtn" style="background:linear-gradient(#5B7A99,#3A5673);">➕ 다른 사람 추가 (최대 5명)</button>
       <div class="note">타인 사주 열람은 훔쳐보는 값 +1이 붙는다 멍. 정보는 이 기기에만 저장된다 멍.</div>
+      <div style="text-align:center; margin-top:10px;"><a href="#" style="font-size:11px; color:#9a8358; text-decoration:underline;" onclick="event.preventDefault(); document.getElementById('legalModal').classList.remove('hidden');">이용약관 · 개인정보처리방침 · 사업자정보</a></div>
       <div style="text-align:center; margin-top:8px;"><a href="#" id="profClose" style="font-size:12px; color:#8a6a35;">닫기</a></div>
     </div></div>
   </div>
@@ -2183,6 +2262,38 @@ async function kakaoAuth(){
   }
 }
 document.getElementById('btnKakao').onclick = kakaoAuth;
+
+// ================= v13: PortOne 실결제 (엽전 일회성 구매) =================
+// TODO: PortOne 콘솔에서 발급한 값으로 교체 (테스트 채널 → 실채널 순)
+const PORTONE_STORE_ID = 'store-XXXXXXXX';
+const PORTONE_CHANNEL_KEY = 'channel-key-XXXXXXXX';
+const COIN_PRODUCTS = { coin10:{amount:1200, coins:10, name:'엽전 주머니 10개'}, coin40:{amount:3900, coins:40, name:'엽전 꾸러미 40개'} };
+async function buyCoins(product){
+  const p = COIN_PRODUCTS[product];
+  if (!p) return;
+  if (!cloud || !sb){ toast('클라우드 연결 후에 결제된다 멍!'); return; }
+  if (!window.PortOne || PORTONE_STORE_ID.indexOf('XXXX') >= 0){ toast('결제 설정(PortOne 키) 전이라 아직 못 산다 멍!'); return; }
+  const paymentId = 'shiba-' + Date.now() + '-' + Math.random().toString(36).slice(2,8);
+  try {
+    const res = await window.PortOne.requestPayment({
+      storeId: PORTONE_STORE_ID,
+      channelKey: PORTONE_CHANNEL_KEY,
+      paymentId,
+      orderName: p.name,
+      totalAmount: p.amount,
+      currency: 'CURRENCY_KRW',
+      payMethod: 'CARD'
+    });
+    if (res && res.code != null){ toast('결제 취소/실패다 멍: ' + (res.message || res.code)); return; }
+    const { data, error } = await sb.functions.invoke('verify-payment', { body: { paymentId, product } });
+    if (error || !data || !data.ok){ console.warn('결제 검증 실패', error, data); toast('결제 검증 실패다 멍. 잠시 후 잔액 확인해라 멍!'); return; }
+    coins = data.coins; updateCoins();
+    const bal = document.getElementById('shopBalance'); if (bal) bal.textContent = coins;
+    toast(`${data.label} 충전 완료다 멍! (+${data.granted}, 잔액 ${coins}개) 🪙`);
+  } catch(e){ console.warn('결제 에러', e); toast('결제 중 문제가 생겼다 멍. 다시 시도해라 멍!'); }
+}
+document.getElementById('buyCoin10').onclick = ()=> buyCoins('coin10');
+document.getElementById('buyCoin40').onclick = ()=> buyCoins('coin40');
 
 async function cloudInit(){
   try {

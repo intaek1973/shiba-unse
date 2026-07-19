@@ -1013,8 +1013,11 @@ const STEPS = [
     validate(){ if (!W.agreed) { toast('도장 안 찍으면 시작 못 한다 멍!'); return false; } return true; }
   }
 ];
+// 위저드 단계별 캐릭터 높이(bottom %) — 표정 이미지마다 프레이밍이 달라 개별 조정
+const WIZ_BOTTOM = ['18%', '40%', '30%', '26%', '30%'];
 function showStep(){
   setChar(wStep===0 ? 'welcome' : 'hurry', wStep===0 ? 'char-enter' : 'char-zoom');
+  charWrap.style.bottom = WIZ_BOTTOM[wStep] || '';
   renderCoins(); renderChips();
   $('wBack').classList.toggle('hidden', wStep===0);
   $('wNext').textContent = wStep===STEP_COUNT-1 ? '사주 까보기 🔮' : '다음 ▸';
@@ -1035,7 +1038,7 @@ function finishWizard(){
     user = { name:W.name, saju, gender:W.gender,
       birthText:`${W.birth.y}.${W.birth.m}.${W.birth.d}${W.sijin!==null?' '+SIJIN[W.sijin][1]:''}` };
     $('wizard').classList.add('hidden');
-    charWrap.classList.remove('wizard-mode');
+    charWrap.classList.remove('wizard-mode'); charWrap.style.bottom = '';
     window._fromHome = true;
     profiles = [{name:W.name, y:W.birth.y, m:W.birth.m, d:W.birth.d, sijin:W.sijin, gender:W.gender}];
     saveProfiles(); activeIdx = 0; updateGuest();
@@ -1811,7 +1814,7 @@ function applyProfile(i, isReturn){
   pb.textContent = '👤 ' + (i===0 ? '나' : user.name) + ' ▾';
   pb.classList.remove('hidden');
   document.getElementById('wizard').classList.add('hidden');
-  charWrap.classList.remove('wizard-mode');
+  charWrap.classList.remove('wizard-mode'); charWrap.style.bottom = '';
   document.getElementById('btnReport').innerHTML = reportUnlocked()
     ? '📜 풀이 ✅'
     : '📜 풀이 <span style="background:#F5D97A; color:#5d431f; border-radius:8px; padding:1px 5px; font-size:9.5px;">🪙5</span>';

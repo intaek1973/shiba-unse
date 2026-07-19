@@ -249,6 +249,15 @@
   @keyframes gatePunch { 0%{opacity:0; transform:scale(.6)} 55%{opacity:1; transform:scale(1.09)} 100%{transform:scale(1)} }
   @keyframes gateOut { 0%{opacity:1; transform:scale(1)} 100%{opacity:0; transform:scale(1.18)} }
   @keyframes gSayIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+  /* ===== 점괘 로딩 연출 ===== */
+  .fortune-loading { position:absolute; bottom:19%; left:50%; transform:translateX(-50%); z-index:9; width:80%; max-width:320px; text-align:center; pointer-events:none; }
+  .fortune-loading.hidden { display:none; }
+  .fl-orb { font-size:34px; animation:flOrb 1.4s ease-in-out infinite; filter:drop-shadow(0 4px 10px rgba(120,60,160,.5)); }
+  @keyframes flOrb { 0%,100%{ transform:translateY(0) rotate(-8deg); } 50%{ transform:translateY(-9px) rotate(8deg); } }
+  .fl-text { margin-top:6px; font-size:13.5px; font-weight:900; color:#5d2b20; text-shadow:0 1px 3px rgba(255,250,240,.75); }
+  .fl-bar { margin:10px auto 0; width:76%; height:8px; background:rgba(90,50,20,.16); border-radius:8px; overflow:hidden; }
+  .fl-fill { width:38%; height:100%; border-radius:8px; background:linear-gradient(90deg, #C9A227, #B03A2E, #8E5BA6); animation:flSlide 1.05s ease-in-out infinite; }
+  @keyframes flSlide { 0%{ margin-left:-40%; } 100%{ margin-left:102%; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
@@ -287,6 +296,11 @@
   </div>
 
   <div class="char-wrap" id="charWrap"><img id="charImg" alt="시바도사"></div>
+  <div class="fortune-loading hidden" id="fLoading">
+    <div class="fl-orb">🔮</div>
+    <div class="fl-text" id="flText">신령님과 접신 중…</div>
+    <div class="fl-bar"><div class="fl-fill"></div></div>
+  </div>
   <div class="guest-wrap"><img id="guestImg" src="https://d8j0ntlcm91z4.cloudfront.net/user_3F4bxxK6vdTmFI9YzzbcvFKIDcn/hf_20260717_032710_698c4eb8-e763-4587-b4c5-b18ddcc64a88_min.png" alt=""></div>
 
   <div class="quick hidden" id="quickBar" style="display:none !important;">
@@ -807,7 +821,7 @@ function scheduleAuto(len){
   if (queue.length || onQueueDone) autoTimer = setTimeout(()=>{ autoTimer = null; nextLine(); }, Math.min(4200, 1500 + len * 30));
 }
 const speech = $('speech'), speechTxt = $('speechTxt'), nextHint = $('nextHint');
-function say(lines, done){ queue = lines.slice(); onQueueDone = done || null; nextLine(); }
+function say(lines, done){ hideFortuneLoading(); queue = lines.slice(); onQueueDone = done || null; nextLine(); }
 function nextLine(){
   clearTimeout(autoTimer); autoTimer = null;
   if (typeTimer) {
@@ -1090,12 +1104,27 @@ async function llmRoast(payload, fallback){
 }
 function llmCtx(extra){ return Object.assign({ name: user && user.name }, extra); }
 
+const FL_MSGS = ['신령님과 접신 중…','사주팔자 펼치는 중…','천간·지지 대조 중…','네 팔자 구석구석 스캔 중…','일진이랑 대질 심문 중…','뼈 때릴 팩트 고르는 중…','복채값 하는 중이다 멍…'];
+let flTimer = null;
+function showFortuneLoading(){
+  const el = document.getElementById('fLoading'); if (!el) return;
+  const t = document.getElementById('flText');
+  let i = 0; if (t) t.textContent = FL_MSGS[0];
+  el.classList.remove('hidden');
+  clearInterval(flTimer);
+  flTimer = setInterval(()=>{ i = (i+1) % FL_MSGS.length; if (t) t.textContent = FL_MSGS[i]; }, 1200);
+}
+function hideFortuneLoading(){
+  const el = document.getElementById('fLoading'); if (el) el.classList.add('hidden');
+  clearInterval(flTimer); flTimer = null;
+}
 function runFortune(kind){
   busy(true); hideStamp(); document.getElementById('tempBtn').classList.add('hidden');
   setChar('think');
   say([{text:'기다려라 멍…. 신령님한테 네 사주 조회 넣었다 멍. 🔮', emotion:'think'}]);
+  showFortuneLoading();
   setTimeout(()=>{ Promise.resolve().then(kind).catch(e=>{ console.error(e);
-    say([{text:FALLBACK_MSG, emotion:'doom', anim:'char-shake'}], ()=>busy(false)); }); }, 1100);
+    hideFortuneLoading(); say([{text:FALLBACK_MSG, emotion:'doom', anim:'char-shake'}], ()=>busy(false)); }); }, 700);
 }
 
 // ================= 기능 1: 오늘의 운세 =================

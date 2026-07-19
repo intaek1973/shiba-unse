@@ -455,6 +455,7 @@
         <button class="start-btn" id="npSave">등록하기</button>
       </div>
       <button class="start-btn" id="profAddBtn" style="background:linear-gradient(#5B7A99,#3A5673);">➕ 다른 사람 추가 (최대 5명)</button>
+      <button class="start-btn" id="profReset" style="margin-top:8px; background:linear-gradient(#9A3B32,#78221B);">🗑️ 전체 초기화 (프로필 삭제)</button>
       <div class="note">타인 사주 열람은 훔쳐보는 값 +1이 붙는다 멍. 정보는 이 기기에만 저장된다 멍.</div>
       <div style="text-align:center; margin-top:10px;"><a href="#" style="font-size:11px; color:#9a8358; text-decoration:underline;" onclick="event.preventDefault(); document.getElementById('legalModal').classList.remove('hidden');">이용약관 · 개인정보처리방침 · 사업자정보</a></div>
       <div style="text-align:center; margin-top:8px;"><a href="#" id="profClose" style="font-size:12px; color:#8a6a35;">닫기</a></div>
@@ -2333,6 +2334,22 @@ async function buyCoins(product){
 }
 document.getElementById('buyCoin10').onclick = ()=> buyCoins('coin10');
 document.getElementById('buyCoin40').onclick = ()=> buyCoins('coin40');
+
+// ================= v13: 프로필 전체 초기화 =================
+async function resetProfiles(){
+  if (!confirm('정말 모든 프로필(닉네임·생년월일)을 초기화할까요?\n저장된 사주와 오늘 본 운세·구매 기록이 삭제되고 처음 입력 화면으로 돌아갑니다.\n(엽전 잔액과 로그인은 유지됩니다)')) return;
+  try { if (cloud && sb && myUid) { const r = await sb.from('profiles').delete().eq('user_id', myUid); if (r.error) console.warn('클라우드 프로필 삭제 경고:', r.error.message); } }
+  catch(e){ console.warn('클라우드 프로필 삭제 실패:', e); }
+  try {
+    Object.keys(localStorage).forEach(k=>{
+      if (k === 'shiba_profiles' || k.indexOf('shiba_seen_') === 0 || k.indexOf('shiba_period_') === 0 || k.indexOf('shiba_report_') === 0) localStorage.removeItem(k);
+    });
+  } catch(e){}
+  try { profiles = []; } catch(e){}
+  toast('초기화 완료다 멍. 처음부터 다시 시작하자 멍! 🧹');
+  setTimeout(()=>location.reload(), 800);
+}
+{ const _rst = document.getElementById('profReset'); if (_rst) _rst.onclick = resetProfiles; }
 
 async function cloudInit(){
   try {

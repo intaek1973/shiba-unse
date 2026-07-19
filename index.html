@@ -1014,7 +1014,7 @@ const STEPS = [
   }
 ];
 // 위저드 단계별 캐릭터 높이(bottom %) — 표정 이미지마다 프레이밍이 달라 개별 조정
-const WIZ_BOTTOM = ['20%', '37%', '32%', '26%', '30%'];
+const WIZ_BOTTOM = ['20%', '34%', '32%', '26%', '30%'];
 function showStep(){
   setChar(wStep===0 ? 'welcome' : 'hurry', wStep===0 ? 'char-enter' : 'char-zoom');
   charWrap.style.bottom = WIZ_BOTTOM[wStep] || '';

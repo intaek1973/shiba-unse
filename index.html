@@ -239,7 +239,7 @@
   /* ===== 대문(인트로) ===== */
   .gate { position:absolute; inset:0; z-index:200; background:#EAD9BC url('https://d8j0ntlcm91z4.cloudfront.net/user_3F4bxxK6vdTmFI9YzzbcvFKIDcn/hf_20260718_125801_72743b38-f4b1-4c80-8cff-35105a1c286d_min.webp') center center/cover no-repeat; display:flex; align-items:flex-end; justify-content:center; cursor:pointer; transition:opacity 1s ease, transform 1s ease; }
   .gate::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 52%, rgba(35,20,8,.6) 100%); pointer-events:none; }
-  .gate.enter { opacity:0; transform:scale(1.05); pointer-events:none; }
+  .gate.leaving { animation:gateOut 1s ease-in forwards; pointer-events:none; }
   .gate.punch { animation:gatePunch .5s cubic-bezier(.2,.9,.3,1.55) both; }
   .gate-say { position:relative; z-index:1; margin:0 20px 36px; max-width:380px; text-align:center; font-size:19px; font-weight:900; color:#FFF6E4; text-shadow:0 2px 10px rgba(0,0,0,.8); line-height:1.5; animation:gSayIn .4s .18s both; }
   .gate-title { position:absolute; top:6%; left:50%; transform:translateX(-50%); z-index:2; text-align:center; width:max-content; animation:gTitleIn .55s .08s both; }
@@ -247,6 +247,7 @@
   .gate-title .gt-sub { display:block; margin-top:8px; font-size:11.5px; font-weight:800; color:#8a6320; letter-spacing:3px; text-shadow:0 1px 2px rgba(255,250,235,.55); }
   @keyframes gTitleIn { from{opacity:0; transform:translateX(-50%) translateY(-14px)} to{opacity:1; transform:translateX(-50%)} }
   @keyframes gatePunch { 0%{opacity:0; transform:scale(.6)} 55%{opacity:1; transform:scale(1.09)} 100%{transform:scale(1)} }
+  @keyframes gateOut { 0%{opacity:1; transform:scale(1)} 100%{opacity:0; transform:scale(1.18)} }
   @keyframes gSayIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -258,7 +259,7 @@
   <div class="stage"></div>
 
   <!-- 대문(인트로 스플래시) -->
-  <div class="gate punch" id="gate" onclick="this.classList.add('enter'); var g=this; setTimeout(function(){ g.style.display='none'; }, 1000);">
+  <div class="gate punch" id="gate" onclick="this.classList.remove('punch'); this.classList.add('leaving'); var g=this; setTimeout(function(){ g.style.display='none'; }, 1000);">
     <div class="gate-title"><span class="gt-main">킹받는 시바도사</span><span class="gt-sub">오늘도 팩폭 사주</span></div>
     <div class="gate-say" id="gateSay"></div>
   </div>
@@ -774,12 +775,12 @@ const GATE_LINES = [
 function playGate(){
   const g = document.getElementById('gate');
   if (!g) return;
-  g.style.display = 'flex'; g.classList.remove('enter');
+  g.style.display = 'flex'; g.classList.remove('leaving');
   g.classList.remove('punch'); void g.offsetWidth; g.classList.add('punch');
   const say = document.getElementById('gateSay');
   if (say) { const _ln = GATE_LINES[Math.floor(Math.random()*GATE_LINES.length)]; say.innerHTML = _ln.split(/\n|(?<=[.?!])\s+/).filter(Boolean).join('<br>'); }
   clearTimeout(g._t);
-  g._t = setTimeout(()=>{ g.classList.add('enter'); setTimeout(()=>{ g.style.display='none'; }, 1000); }, 2000);
+  g._t = setTimeout(()=>{ g.classList.remove('punch'); g.classList.add('leaving'); setTimeout(()=>{ g.style.display='none'; }, 1000); }, 2000);
 }
 
 // ================= 상태 =================

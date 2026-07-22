@@ -381,6 +381,11 @@
         <button class="start-btn" id="buyPass10" style="margin-top:8px; background:linear-gradient(#C0392B,#8E2A20);">운세 이용권 10회 · 1,900원</button>
         <button class="start-btn" id="buyPass30" style="margin-top:8px; background:linear-gradient(#8E2A22,#6E1B15);">운세 이용권 30회 · 2,900원</button>
         <button class="start-btn" id="buyPass50" style="margin-top:8px; background:linear-gradient(#7A1F1A,#5A1712);">운세 이용권 50회 · 4,900원</button></div>
+      <div class="shop-item" style="margin-top:12px;">🎟️ <b>쿠폰 등록</b>
+        <div style="display:flex; gap:6px; margin-top:8px;">
+          <input type="text" id="couponCode" placeholder="쿠폰 코드 입력" autocomplete="off" style="flex:1; min-width:0; padding:10px 12px; border:1.5px solid #C9A86A; border-radius:10px; font-size:13px; font-weight:800; text-transform:uppercase; background:#fff; color:#3d2c14;">
+          <button class="start-btn" id="couponBtn" style="flex:0 0 84px; margin:0; padding:10px 0; background:linear-gradient(#5B7A99,#3A5673);">등록</button>
+        </div></div>
       <div class="shop-item" style="margin-top:10px; display:none;">🐕 <b>단골 패스</b> — 월 4,900원 (모의)<br>
         <span style="font-size:11px; color:#a5854a;">본인 일일 운세 무제한 · 광고 제거 · 감정서 포함 · 월운 자동 열람 · 신년 대감정 50%</span><br>
         <button class="start-btn" id="shopSub" style="margin-top:8px; padding:10px;">🐕 단골 패스 가입 (모의)</button></div>
@@ -2372,6 +2377,29 @@ document.getElementById('buyPass3').onclick = ()=> buyCoins('pass3');
 document.getElementById('buyPass10').onclick = ()=> buyCoins('pass10');
 document.getElementById('buyPass30').onclick = ()=> buyCoins('pass30');
 document.getElementById('buyPass50').onclick = ()=> buyCoins('pass50');
+
+// ================= v13: 쿠폰 등록 =================
+const COUPON_ERR = { not_found:'없는 쿠폰이다 멍!', inactive:'사용 중지된 쿠폰이다 멍.', expired:'기한이 지난 쿠폰이다 멍.', exhausted:'이미 다 소진된 쿠폰이다 멍!', already_used:'이미 사용한 쿠폰이다 멍!', unauthorized:'연결 후에 다시 해라 멍.' };
+async function redeemCoupon(){
+  const inp = document.getElementById('couponCode');
+  const btn = document.getElementById('couponBtn');
+  const code = ((inp && inp.value) || '').trim().toUpperCase();
+  if (!code) { toast('쿠폰 코드를 입력해라 멍!'); return; }
+  if (!cloud || !sb) { toast('클라우드 연결 후에 된다 멍!'); return; }
+  if (btn) btn.disabled = true;
+  try {
+    const { data, error } = await sb.rpc('redeem_coupon', { p_code: code });
+    if (error) throw error;
+    if (!data || !data.ok) { toast(COUPON_ERR[(data && data.error) || ''] || '쿠폰 등록에 실패했다 멍.'); return; }
+    coins = data.coins; updateCoins();
+    const bal = document.getElementById('shopBalance'); if (bal) bal.textContent = coins;
+    if (inp) inp.value = '';
+    toast(`쿠폰 적용! 이용권 ${data.granted}회 받았다 멍! (잔액 ${coins}회) 🎟️`);
+  } catch(e){ console.warn('쿠폰 오류:', e); toast('쿠폰 처리 중 문제가 생겼다 멍.'); }
+  finally { if (btn) btn.disabled = false; }
+}
+{ const cb = document.getElementById('couponBtn'); if (cb) cb.onclick = redeemCoupon;
+  const ci = document.getElementById('couponCode'); if (ci) ci.addEventListener('keydown', e=>{ if (e.key === 'Enter') redeemCoupon(); }); }
 
 // ================= v13: 프로필 전체 초기화 =================
 async function resetProfiles(){

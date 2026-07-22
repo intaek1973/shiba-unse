@@ -277,9 +277,9 @@
 
   <div class="topbar">
     <div class="title-seal" onclick="playGate()"><span class="logo-face"></span>킹받는 시바도사</div>
-    <div class="coin-chip" id="coinChip" style="cursor:pointer;">🪙 <b id="coinCnt">5</b><span id="subBadge" class="hidden" style="color:#8a1f1a;"> ·🐕</span></div>
+    <div class="coin-chip" id="coinChip" style="cursor:pointer;">🎫 <b id="coinCnt">5</b><span id="subBadge" class="hidden" style="color:#8a1f1a;"> ·🐕</span></div>
     <button class="top-btn hidden" id="btnProfile">👤 나</button>
-    <button class="top-btn report-open" id="btnReport">📜 풀이 <span style="background:#F5D97A; color:#5d431f; border-radius:8px; padding:1px 5px; font-size:9.5px;">🪙5</span></button>
+    <button class="top-btn report-open" id="btnReport">📜 풀이 <span style="background:#F5D97A; color:#5d431f; border-radius:8px; padding:1px 5px; font-size:9.5px;">🎫5</span></button>
     <button class="top-btn" onclick="toast('신고 접수다 멍. 반성은 안 한다 멍!')">🚨</button>
   </div>
 
@@ -305,16 +305,16 @@
   <div class="guest-wrap"><img id="guestImg" src="https://d8j0ntlcm91z4.cloudfront.net/user_3F4bxxK6vdTmFI9YzzbcvFKIDcn/hf_20260717_032710_698c4eb8-e763-4587-b4c5-b18ddcc64a88_min.png" alt=""></div>
 
   <div class="quick hidden" id="quickBar" style="display:none !important;">
-    <button class="qb1" id="btnToday" disabled>🐾 오늘 운세 팩폭<br><span class="cost">🪙 1</span></button>
-    <button class="qb4" id="btnWork" disabled>💼 업무운<br><span class="cost">🪙 2</span></button>
-    <button class="qb5" id="btnPeople" disabled>👥 대인관계<br><span class="cost">🪙 2</span></button>
-    <button class="qb2" id="btnMoney" disabled>💰 재물운<br><span class="cost">🪙 3</span></button>
-    <button class="qb6" id="btnHealth" disabled>🫀 건강운<br><span class="cost">🪙 2</span></button>
-    <button class="qb3" id="btnLove" disabled>💔 궁합 박살<br><span class="cost">🪙 4</span></button>
-    <button class="qb7" id="btnMonth" disabled>📅 이달의 운세<br><span class="cost">🪙 15 · 한 달 열람</span></button>
-    <button class="qb8" id="btnYear" disabled>🗓️ 올해의 운세<br><span class="cost">🪙 30 · 일 년 열람</span></button>
+    <button class="qb1" id="btnToday" disabled>🐾 오늘 운세 팩폭<br><span class="cost">🎫 1</span></button>
+    <button class="qb4" id="btnWork" disabled>💼 업무운<br><span class="cost">🎫 2</span></button>
+    <button class="qb5" id="btnPeople" disabled>👥 대인관계<br><span class="cost">🎫 2</span></button>
+    <button class="qb2" id="btnMoney" disabled>💰 재물운<br><span class="cost">🎫 3</span></button>
+    <button class="qb6" id="btnHealth" disabled>🫀 건강운<br><span class="cost">🎫 2</span></button>
+    <button class="qb3" id="btnLove" disabled>💔 궁합 박살<br><span class="cost">🎫 4</span></button>
+    <button class="qb7" id="btnMonth" disabled>📅 이달의 운세<br><span class="cost">🎫 15 · 한 달 열람</span></button>
+    <button class="qb8" id="btnYear" disabled>🗓️ 올해의 운세<br><span class="cost">🎫 30 · 일 년 열람</span></button>
   </div>
-  <button class="temp-btn hidden" id="tempBtn">🌡️ 오늘의 관계 온도<span class="price">🪙 5</span></button>
+  <button class="temp-btn hidden" id="tempBtn">🌡️ 오늘의 관계 온도<span class="price">🎫 5</span></button>
 
   <!-- 매거진 홈 -->
   <div class="home hidden" id="homeView">
@@ -367,22 +367,24 @@
     </div></div>
   </div>
 
-  <!-- 엽전 상점 팝업 -->
+  <!-- 이용권 구매 팝업 -->
   <div class="overlay hidden" id="coinShop">
     <div class="modal"><div class="modal-pad">
-      <h2 style="text-align:center;">🪙 복채 낼 시간이다 멍</h2>
-      <div class="shop-balance">보유 엽전: <span id="shopBalance">0</span>개</div>
-      <div class="shop-item" id="shopDesc">엽전이 부족하다 멍!</div>
-      <div class="note" style="margin-top:10px;">가격표: 오늘 🪙1 · 업무/대인/건강 🪙2 · 재물 🪙3 · 궁합 🪙4 · 온도/감정서 🪙5<br>📅 이달의 운세 🪙15 (월 1회 구매·한 달 재열람) · 🗓️ 신년 대감정 🪙30 (연 1회 구매·일 년 재열람)<br>첫 방문 10개 · 매일 출석 +5개 적립 · 보유 상한 60개 — 아끼면 월운 3일, 신년은 6일이면 모은다 멍</div>
-      <button class="start-btn" id="shopCharge" style="background:linear-gradient(#C9A227,#9A7A0F); margin-top:8px; display:none;">🪙 엽전 10개 충전 (프로토타입 무료)</button>
-      <button class="start-btn" id="shopAd" style="background:linear-gradient(#5B7A99,#3A5673); margin-top:8px;">📺 광고 보고 엽전 +3 (오늘 0/3회)</button>
-      <div class="shop-item" style="margin-top:12px; border-top:1px dashed #c9b070; padding-top:12px;">💳 <b>엽전 충전 (실결제)</b>
-        <button class="start-btn" id="buyCoin10" style="margin-top:8px; background:linear-gradient(#C0392B,#8E2A20);">🪙 주머니 10개 · 1,200원</button>
-        <button class="start-btn" id="buyCoin40" style="margin-top:8px; background:linear-gradient(#7A1F1A,#5A1712);">🪙 꾸러미 40개 · 3,900원</button></div>
+      <h2 style="text-align:center;">🎫 이용권이 필요하다 멍</h2>
+      <div class="shop-balance">보유 이용권: <span id="shopBalance">0</span>회</div>
+      <div class="shop-item" id="shopDesc">이용권이 부족하다 멍!</div>
+      <div class="note" style="margin-top:10px;">차감표: 일일 운세(오늘·업무·대인·건강·재물) 각 🎫1 · 궁합/관계온도 🎫2 · 사주 감정서 🎫3<br>📅 이달의 운세 🎫5 (한 달 재열람) · 🗓️ 신년 대감정 🎫8 (일 년 재열람)<br>첫 방문 3회 지급 · 매일 출석 +1회 적립</div>
+      <button class="start-btn" id="shopCharge" style="background:linear-gradient(#C9A227,#9A7A0F); margin-top:8px; display:none;">🎫 이용권 (프로토타입)</button>
+      <button class="start-btn" id="shopAd" style="background:linear-gradient(#5B7A99,#3A5673); margin-top:8px; display:none;">📺 광고</button>
+      <div class="shop-item" style="margin-top:12px; border-top:1px dashed #c9b070; padding-top:12px;">🎫 <b>운세 이용권 구매</b>
+        <button class="start-btn" id="buyPass3" style="margin-top:8px; background:linear-gradient(#C8613A,#A8441F);">운세 이용권 3회 · 900원</button>
+        <button class="start-btn" id="buyPass10" style="margin-top:8px; background:linear-gradient(#C0392B,#8E2A20);">운세 이용권 10회 · 1,900원</button>
+        <button class="start-btn" id="buyPass30" style="margin-top:8px; background:linear-gradient(#8E2A22,#6E1B15);">운세 이용권 30회 · 2,900원</button>
+        <button class="start-btn" id="buyPass50" style="margin-top:8px; background:linear-gradient(#7A1F1A,#5A1712);">운세 이용권 50회 · 4,900원</button></div>
       <div class="shop-item" style="margin-top:10px; display:none;">🐕 <b>단골 패스</b> — 월 4,900원 (모의)<br>
         <span style="font-size:11px; color:#a5854a;">본인 일일 운세 무제한 · 광고 제거 · 감정서 포함 · 월운 자동 열람 · 신년 대감정 50%</span><br>
         <button class="start-btn" id="shopSub" style="margin-top:8px; padding:10px;">🐕 단골 패스 가입 (모의)</button></div>
-      <div class="note">엽전 주머니 10개 1,200원 · 꾸러미 40개 3,900원</div>
+      <div class="note">운세 이용권 3회 900원 · 10회 1,900원 · 30회 2,900원 · 50회 4,900원 (부가세 포함)</div>
       <div style="margin-top:12px; font-size:9.5px; color:#9a8358; line-height:1.55; text-align:center; border-top:1px solid #e3d3a6; padding-top:8px;">
         헤파이토스 · 대표 박인택 · 사업자등록번호 444-07-01697<br>
         경기도 수원시 권선구 권중로 110, 607동 403호 · ☎ 010-9655-6197<br>
@@ -401,15 +403,15 @@
       <details style="margin-top:8px;"><summary style="font-weight:900; cursor:pointer; padding:6px 0;">📄 이용약관</summary>
         <div style="font-size:11.5px; color:#5d4a2a; line-height:1.6; padding:4px 2px; white-space:pre-line;">제1조(목적) 본 약관은 헤파이토스(이하 '회사')가 제공하는 '오늘도 킹받는 시바도사'(이하 '서비스')의 이용조건 및 절차, 회사와 이용자의 권리·의무를 규정함을 목적으로 합니다.
 
-제2조(정의) ① '서비스'란 사주명리 기반 운세 콘텐츠 제공 서비스를 말합니다. ② '엽전'이란 서비스 내 유료 콘텐츠 이용을 위한 사이버 재화를 말합니다. ③ '이용자'란 본 약관에 따라 서비스를 이용하는 자를 말합니다.
+제2조(정의) ① '서비스'란 사주명리 기반 운세 콘텐츠 제공 서비스를 말합니다. ② '이용권'이란 서비스 내 유료 콘텐츠를 열람할 수 있는 횟수 단위의 이용 권리를 말합니다. ③ '이용자'란 본 약관에 따라 서비스를 이용하는 자를 말합니다.
 
 제3조(약관의 효력·변경) 회사는 본 약관을 서비스 화면에 게시하며, 관련 법령을 위반하지 않는 범위에서 변경할 수 있고, 변경 시 적용일자와 사유를 명시하여 공지합니다.
 
 제4조(서비스 제공) ① 서비스는 연중무휴 제공을 원칙으로 하나 점검·장애 등의 사유로 중단될 수 있습니다. ② 운세 콘텐츠는 오락·참고용이며 의학·법률·재무 등 전문적 판단을 대체하지 않습니다.
 
-제5조(유료 서비스·결제) ① 이용자는 엽전을 구매하여 유료 콘텐츠를 이용할 수 있습니다. ② 결제는 회사가 정한 결제대행사를 통해 이루어지며 표시 금액에는 부가세가 포함됩니다.
+제5조(유료 서비스·결제) ① 이용자는 회차 단위의 이용권(묶음 상품)을 구매하여 유료 콘텐츠를 열람할 수 있습니다. ② 결제는 회사가 정한 결제대행사를 통해 이루어지며 표시 금액에는 부가세가 포함됩니다.
 
-제6조(청약철회·환불) ① 이용자는 결제일로부터 7일 이내에 청약철회를 할 수 있습니다. 다만 이미 콘텐츠 열람에 사용(소진)한 엽전 및 즉시 이용으로 효용이 발생한 콘텐츠는 전자상거래법 제17조 제2항에 따라 청약철회가 제한될 수 있습니다. ② 미사용 엽전은 전액 환불되며, 환불은 원 결제수단으로 취소 처리됩니다. ③ 환불 요청은 고객센터 이메일로 접수합니다.
+제6조(청약철회·환불) ① 이용자는 결제일로부터 7일 이내에 청약철회를 할 수 있습니다. 다만 이미 콘텐츠 열람에 사용(소진)한 이용권 및 즉시 이용으로 효용이 발생한 콘텐츠는 전자상거래법 제17조 제2항에 따라 청약철회가 제한될 수 있습니다. ② 미사용 이용권은 전액 환불되며, 환불은 원 결제수단으로 취소 처리됩니다. ③ 환불 요청은 고객센터 이메일로 접수합니다.
 
 제7조(이용자 의무) 이용자는 타인의 정보를 도용하거나 서비스 운영을 방해하는 행위를 하여서는 안 됩니다.
 
@@ -481,11 +483,11 @@
   <div class="overlay hidden" id="periodOffer">
     <div class="modal"><div class="modal-pad">
       <h2 style="text-align:center;" id="poTitle">📅 월운 정밀 보고서</h2>
-      <div class="shop-balance">보유 엽전: <span id="poBalance">0</span>개</div>
+      <div class="shop-balance">보유 이용권: <span id="poBalance">0</span>회</div>
       <div class="shop-item" style="text-align:left; font-weight:600;" id="poList"></div>
       <div class="note" id="poNote"></div>
       <div id="poPrice" style="text-align:center; font-weight:900; color:#7a1f1a; margin:8px 0 2px;"></div>
-      <button class="start-btn" id="poPay">🪙 열람</button>
+      <button class="start-btn" id="poPay">🎫 열람</button>
       <div style="text-align:center; margin-top:8px;"><a href="#" id="poCancel" style="font-size:12px; color:#8a6a35;">다음에 볼래</a></div>
     </div></div>
   </div>
@@ -502,7 +504,7 @@
   <div class="overlay hidden" id="reportOffer">
     <div class="modal"><div class="modal-pad">
       <h2 style="text-align:center;">📜 프리미엄 사주 풀이 감정서</h2>
-      <div class="shop-balance">보유 엽전: <span id="offerBalance">0</span>개</div>
+      <div class="shop-balance">보유 이용권: <span id="offerBalance">0</span>회</div>
       <div class="shop-item" style="text-align:left; font-weight:600;">
         🀄 <b>원국 정밀표</b> — 팔자 8글자 + 숨은 기운 지장간 + 태어난 계절의 기운<br><br>
         🧬 <b>타고난 성향 풀이</b> — 일간의 그릇, 강점·약점, 어울리는 일, 일지 내면 분석<br><br>
@@ -511,7 +513,7 @@
         📅 <b>오늘의 일진 심화</b> — 길시·흉시, 오늘의 행운 색과 방위<br><br>
         🔢 <b>지수 산출 근거</b> — 모든 운세 점수의 계산 내역 공개</div>
       <div class="note">한 번 열람하면 이 사주는 <b>평생 무료</b>다 멍 (일진·지수 탭은 매일 갱신)</div>
-      <button class="start-btn" id="offerPay">🪙 엽전 5개 내고 감정서 열람</button>
+      <button class="start-btn" id="offerPay">🎫 이용권 3회로 감정서 열람</button>
       <div style="text-align:center; margin-top:8px;"><a href="#" id="offerCancel" style="font-size:12px; color:#8a6a35;">다음에 볼래</a></div>
     </div></div>
   </div>
@@ -1063,7 +1065,7 @@ function finishWizard(){
     markPeriodButtons();
     say([
       {text:`좋다, <b>${W.name}</b>. 복채는 안 받는다… 대신 팩트로 받는다 멍.`, emotion:'def', anim:'char-enter'},
-      {text:`네 사주 원국 다 까봤다 멍. 일간이 <b>${STEMS[saju.day.stem]}(${STEM_ELEM[saju.day.stem]})</b>… 벌써부터 킹받는 구석이 보인다 멍.${saju.hour?'':'\n\n(시간을 몰라서 시주는 비워뒀다, 나중에 엄마한테 물어봐라 멍)'}\n\n제대로 된 팔자 감정은 위의 <b>📜 사주 풀이</b>에 다 적어놨다 멍. 엽전 5개짜리지만 값은 하는 물건이다 멍.`, emotion:'roast'},
+      {text:`네 사주 원국 다 까봤다 멍. 일간이 <b>${STEMS[saju.day.stem]}(${STEM_ELEM[saju.day.stem]})</b>… 벌써부터 킹받는 구석이 보인다 멍.${saju.hour?'':'\n\n(시간을 몰라서 시주는 비워뒀다, 나중에 엄마한테 물어봐라 멍)'}\n\n제대로 된 팔자 감정은 위의 <b>📜 사주 풀이</b>에 다 적어놨다 멍. 이용권 3회짜리지만 값은 하는 물건이다 멍.`, emotion:'roast'},
       {text:'자, 뭐부터 박살 내 줄까 멍? 아래 버튼 눌러라. 마음의 준비는 네 몫이다 멍!', emotion:'def'}
     ], ()=>busy(false));
   } catch(e) { console.error(e); toast(FALLBACK_MSG); }
@@ -1198,7 +1200,7 @@ $('pGo').onclick = ()=>{
       {text:L[1], emotion:'roast'},
       {text:'<b>💊 도사의 관계 처방</b>\n'+L[2], emotion:'def'}
     ];
-    if (tier==='doom'||tier==='risky') seq.push({text:'더 깊은 파탄의 원인이 궁금하면… 엽전 3개 내놔라 멍. 🙏\n(프로토타입: 인앱결제 미연동)', emotion:'pay', anim:'char-bounce'});
+    if (tier==='doom'||tier==='risky') seq.push({text:'더 깊은 파탄의 원인이 궁금하면… 이용권 2회 내놔라 멍. 🙏', emotion:'pay', anim:'char-bounce'});
     say(seq, ()=>{ showStamp(g.doom+'%','관계 파탄 지수', tier==='bless'?'#2E7D32':'#6C3E85'); lastPartner={name:pn, saju:s2}; $('tempBtn').classList.remove('hidden'); busy(false); });
   }));
 };
@@ -1278,13 +1280,13 @@ const doWork = makeGeneric('업무운', WORK_BASE, {'합':12,'동일':4,'무난'
 const doPeople = makeGeneric('대인관계운', PEOPLE_BASE, PEOPLE_REL, ROAST_PEOPLE, '인싸력 게이지', '#8E2247');
 const doHealth = makeGeneric('건강운', null, HEALTH_REL, ROAST_HEALTH, '몸뚱이 배터리', '#2A5D32');
 
-// ================= 엽전 지갑 & 유료: 오늘의 관계 온도 =================
-// ===== 엽전 경제: 매일 10개 리필, 메뉴별 차등 소진 =====
-const COSTS = { today:1, work:2, people:2, health:2, money:3, love:4, temp:5, report:5, month:15, year:30 };
+// ================= 이용권 지갑 & 유료: 오늘의 관계 온도 =================
+// ===== 이용권 경제: 매일 10개 리필, 메뉴별 차등 소진 =====
+const COSTS = { today:1, work:1, people:1, health:1, money:1, love:2, temp:2, report:3, month:5, year:8 };
 const COST_LABEL = { today:'오늘 운세 팩폭', work:'업무운', people:'대인관계운', health:'건강운', money:'재물운', love:'궁합 박살', temp:'오늘의 관계 온도', report:'프리미엄 사주 풀이 감정서', month:'이달의 운세', year:'올해의 운세' };
 let coins = 10, lastPartner = null;
 // 아낌형 적립: 첫 방문 10개, 매일 출석 +5개, 보유 상한 60개 (구매분 포함 이월)
-const COIN_CAP = 60, DAILY_GRANT = 5, WELCOME = 10;
+const COIN_CAP = 99, DAILY_GRANT = 1, WELCOME = 3;
 function loadCoins(){
   try {
     const saved = JSON.parse(localStorage.getItem('shiba_coins') || 'null');
@@ -1292,11 +1294,11 @@ function loadCoins(){
     if (!saved) {
       coins = WELCOME;
       localStorage.setItem('shiba_coins', JSON.stringify({date:today, coins}));
-      setTimeout(()=>toast('첫 손님 환영 엽전 10개다 멍! 매일 오면 5개씩 적립이다 멍! 🪙'), 900);
+      setTimeout(()=>toast('첫 손님 환영 이용권 3회다 멍! 매일 오면 1회씩 적립이다 멍! 🎫'), 900);
     } else if (saved.date !== today) {
       coins = Math.min(COIN_CAP, saved.coins + DAILY_GRANT);
       localStorage.setItem('shiba_coins', JSON.stringify({date:today, coins}));
-      setTimeout(()=>toast(`출석 보상 엽전 ${DAILY_GRANT}개 적립이다 멍! (보유 ${coins}개) 🪙`), 900);
+      setTimeout(()=>toast(`출석 보상 이용권 ${DAILY_GRANT}회 적립이다 멍! (보유 ${coins}회) 🎫`), 900);
     } else coins = saved.coins;
   } catch(e) { coins = WELCOME; }
 }
@@ -1309,17 +1311,17 @@ function spend(key, fn){
   if (c === 0) { toast('단골 패스 손님은 공짜다 멍! 🐕'); markSeen(key); fn(); return; }
   if (coins < c) { openShop(key); return; }
   coins -= c; updateCoins();
-  toast(`엽전 ${c}개 잘 받았다 멍! (잔액 ${coins}개)`);
+  toast(`이용권 ${c}회 잘 받았다 멍! (잔액 ${coins}회)`);
   markSeen(key);
   fn();
 }
 function openShop(key){
   document.getElementById('shopBalance').textContent = coins;
   document.getElementById('shopDesc').innerHTML = key
-    ? `<b>${COST_LABEL[key]}</b>을(를) 보려면 <b style="color:#8a1f1a;">엽전 ${costFor(key)}개</b>가 필요하다 멍.<br>지금 <b>${coins}개</b>뿐이라 모자란다 멍!`
-    : '복채가 두둑해야 팔자도 잘 풀리는 법이다 멍. 🪙';
+    ? `<b>${COST_LABEL[key]}</b>을(를) 보려면 <b style="color:#8a1f1a;">이용권 ${costFor(key)}회</b>가 필요하다 멍.<br>지금 <b>${coins}회</b>뿐이라 모자란다 멍!`
+    : '복채가 두둑해야 팔자도 잘 풀리는 법이다 멍. 🎫';
   const s = adState();
-  document.getElementById('shopAd').textContent = '📺 광고 보고 엽전 +3 (오늘 '+s.n+'/3회)';
+  document.getElementById('shopAd').textContent = '📺 광고 보고 이용권 +3 (오늘 '+s.n+'/3회)';
   document.getElementById('shopSub').textContent = subActive() ? '🐕 단골 패스 이용 중' : '🐕 단골 패스 가입 (모의)';
   document.getElementById('coinShop').classList.remove('hidden');
 }
@@ -1351,7 +1353,7 @@ function runTemp(){
     lastResult = { kind:`오늘의 관계 온도 (${user.name} ✕ ${lastPartner.name})`, key:'temp', lines:[L[0],L[1]], score:temp,
       rows:[['기본 온도', 50], ['내 일지 ✕ 오늘 ('+myRel+')', TEMP_REL[myRel]], ['상대 일지 ✕ 오늘 ('+pRel+')', TEMP_REL[pRel]], ['일진 변동', seed]] };
     say([
-      {text:`엽전 잘 받았다 멍. 오늘 <b>${pillarName(tIdx%10, tBranch)}</b>일의 기운을 둘 사이에 부어본다 멍…. 🌡️`, emotion:'think'},
+      {text:`이용권 잘 받았다 멍. 오늘 <b>${pillarName(tIdx%10, tBranch)}</b>일의 기운을 둘 사이에 부어본다 멍…. 🌡️`, emotion:'think'},
       {text:L[0], emotion:em, anim: tier==='ice'?'char-shake':(tier==='hot'?'char-bounce':'char-pop')},
       {text:'<b>🌡️ 도사의 온도 처방</b>\n'+L[1], emotion:'def'}
     ], ()=>{
@@ -1449,7 +1451,7 @@ function renderBreakdown(){
     <div class="callout">지수는 십성 기본치에 지지 관계 보정과 일진 변동을 더한 값입니다(5~99 범위로 제한). 정식 버전에서는 신살·합충 가중치가 추가됩니다.</div>`;
 }
 
-// ================= 프리미엄 사주 풀이 감정서 (엽전 5개) =================
+// ================= 프리미엄 사주 풀이 감정서 (이용권 5개) =================
 // --- 명리 콘텐츠 데이터 ---
 const ILGAN_DESC = {
   0:{t:'갑목(甲) — 하늘로 뻗는 큰 나무', k:'리더십 · 추진력 · 자존심',
@@ -1510,7 +1512,7 @@ const ELEM_REMEDY = {
 };
 const DIR_OF_ELEM = {'목':'동쪽','화':'남쪽','토':'중앙','금':'서쪽','수':'북쪽'};
 
-// --- 열람권 (엽전 5개, 사주별 영구) ---
+// --- 열람권 (이용권 5개, 사주별 영구) ---
 function reportKey(){ return 'shiba_report_' + (user ? user.birthText : ''); }
 function reportUnlocked(){ if (activeIdx===0 && subActive()) return true; try { return localStorage.getItem(reportKey())==='1'; } catch(e){ return !!window._ru; } }
 function unlockReport(){
@@ -1642,7 +1644,7 @@ function renderIljin2(){
 }
 const TABS2 = { wongook:renderWongook2, persona:renderPersona, elem:renderElem2, remedy:renderRemedy, iljin:renderIljin2, breakdown:renderBreakdown };
 
-// ================= 월운 정밀 보고서(🪙15) · 신년 대감정(🪙30) =================
+// ================= 월운 정밀 보고서(🎫15) · 신년 대감정(🎫30) =================
 const P_BASE = {'정인':78,'편인':66,'정관':75,'편관':55,'정재':80,'편재':70,'식신':76,'상관':58,'비견':64,'겁재':50};
 const P_REL = {'합':12,'동일':4,'무난':0,'원진':-14,'충':-18};
 const clampS = v => Math.max(5, Math.min(99, v));
@@ -1692,7 +1694,7 @@ function startPeriod(kind){
        🎯 <b>분야별 연간 지수</b> — 재물·업무·대인·건강 올해 총평<br><br>
        ⚡ <b>변동수 경고</b> — 띠·일지 충 여부와 이사/이직 주의 시기<br><br>
        🧧 <b>올해의 개운법과 한 줄 전략</b>`;
-  document.getElementById('poPrice').textContent = '🪙 엽전 ' + costFor(kind) + '개 내고 열람';
+  document.getElementById('poPrice').textContent = '🎫 이용권 ' + costFor(kind) + '회로 열람';
   document.getElementById('poNote').innerHTML = isM
     ? '한 번 구매하면 <b>이달 말일까지</b> 무제한 재열람 (약 1,500원 상당)'
     : '한 번 구매하면 <b>올해 12월 31일까지</b> 무제한 재열람 (약 3,000원 상당 · 신년운세 시장가 대비 저렴)';
@@ -1820,11 +1822,11 @@ function updatePriceBadges(){
   for (const [id,key] of Object.entries(BTN_KEY)) {
     const el = document.querySelector('#'+id+' .cost');
     const c = costFor(key);
-    if (el) el.textContent = c===0 ? '🐕 패스 무료' : '🪙 '+c+(activeIdx>0?' (타인 +1)':'');
+    if (el) el.textContent = c===0 ? '🐕 패스 무료' : '🎫 '+c+(activeIdx>0?' (타인 +1)':'');
   }
   const mEl = document.querySelector('#btnMonth .cost'), yEl = document.querySelector('#btnYear .cost');
-  if (mEl) mEl.textContent = periodOwned('month') ? '✅ 열람권 보유' : '🪙 15 · 한 달 열람';
-  if (yEl) yEl.textContent = periodOwned('year') ? '✅ 열람권 보유' : (activeIdx===0&&subActive() ? '🪙 15 · 단골 반값' : '🪙 30 · 일 년 열람');
+  if (mEl) mEl.textContent = periodOwned('month') ? '✅ 열람권 보유' : '🎫 5 · 한 달 열람';
+  if (yEl) yEl.textContent = periodOwned('year') ? '✅ 열람권 보유' : (activeIdx===0&&subActive() ? '🎫 4 · 단골 반값' : '🎫 8 · 일 년 열람');
   document.getElementById('subBadge').classList.toggle('hidden', !subActive());
 }
 // --- 프로필 (본인 + 타인 5명, 기기 저장) ---
@@ -1847,7 +1849,7 @@ function applyProfile(i, isReturn){
   charWrap.classList.remove('wizard-mode'); charWrap.style.bottom = '';
   document.getElementById('btnReport').innerHTML = reportUnlocked()
     ? '📜 풀이 ✅'
-    : '📜 풀이 <span style="background:#F5D97A; color:#5d431f; border-radius:8px; padding:1px 5px; font-size:9.5px;">🪙5</span>';
+    : '📜 풀이 <span style="background:#F5D97A; color:#5d431f; border-radius:8px; padding:1px 5px; font-size:9.5px;">🎫5</span>';
   lastResult = null; lastPartner = null;
   document.getElementById('tempBtn').classList.add('hidden');
   updatePriceBadges(); updateGuest();
@@ -1896,7 +1898,7 @@ document.getElementById('npSave').onclick = ()=>{
   document.getElementById('profilePop').classList.add('hidden');
   applyProfile(profiles.length-1, false);
 };
-// --- 엽전 지갑 열기 / 광고 보상 / 구독 ---
+// --- 이용권 지갑 열기 / 광고 보상 / 구독 ---
 document.getElementById('coinChip').onclick = ()=>openShop(null);
 document.getElementById('shopAd').onclick = ()=>{
   const s = adState();
@@ -1907,8 +1909,8 @@ document.getElementById('shopAd').onclick = ()=>{
     s.n++; try { localStorage.setItem('shiba_ads', JSON.stringify(s)); } catch(e){}
     coins = Math.min(COIN_CAP, coins + 3); updateCoins();
     document.getElementById('shopBalance').textContent = coins;
-    btn.disabled = false; btn.textContent = '📺 광고 보고 엽전 +3 (오늘 '+s.n+'/3회)';
-    toast('광고 봐줘서 고맙다 멍! 엽전 +3 🪙');
+    btn.disabled = false; btn.textContent = '📺 광고 보고 이용권 +3 (오늘 '+s.n+'/3회)';
+    toast('광고 봐줘서 고맙다 멍! 이용권 +3 🎫');
   }, 1800);
 };
 document.getElementById('shopSub').onclick = ()=>{
@@ -2039,7 +2041,7 @@ function renderDash(){
         <div class="g-num" style="color:${gaugeColor(s)}">${s}</div></div>`;
     } else {
       html += `<div class="g-item locked" onclick="cardTap('${key}')"><div class="g-ico">${ico}</div><div class="g-lab">${label}</div>
-        <div class="g-bar g-lock">🔒 탭해서 열기 (🪙${costFor(key)===0?'패스':costFor(key)})</div><div class="g-num">▸</div></div>`;
+        <div class="g-bar g-lock">🔒 탭해서 열기 (🎫${costFor(key)===0?'패스':costFor(key)})</div><div class="g-num">▸</div></div>`;
     }
   }
   document.getElementById('dashBox').innerHTML = html;
@@ -2065,7 +2067,7 @@ function priceChip(key){
   if (key==='report' && reportUnlocked()) return '✅ 보유';
   if ((key==='month'||key==='year') && periodOwned(key)) return '✅ 보유';
   const c = costFor(key);
-  return c===0 ? '🐕 무료' : '🪙 '+c;
+  return c===0 ? '🐕 무료' : '🎫 '+c;
 }
 function renderCards(){
   document.getElementById('rowDaily').innerHTML = DAILY_CARDS.map(([k,i,n,bg])=>
@@ -2124,7 +2126,7 @@ function updateGuest(){
   document.getElementById('guestImg').src = GUEST[g];
 }
 // 히어로 캐릭터 잔소리
-const NAGS = ['…뭘 봐 멍?','복채 아깝냐 멍?','운세는 안 보고 캐릭터만 만지냐 멍!','내 털 함부로 만지지 마라 멍!','오늘 일진 궁금하지 않냐 멍?','간식… 아니 엽전 내놔라 멍.'];
+const NAGS = ['…뭘 봐 멍?','복채 아깝냐 멍?','운세는 안 보고 캐릭터만 만지냐 멍!','내 털 함부로 만지지 마라 멍!','오늘 일진 궁금하지 않냐 멍?','간식… 아니 이용권 내놔라 멍.'];
 function heroNag(){
   const el = document.getElementById('heroLine');
   el.innerHTML = NAGS[Math.floor(Math.random()*NAGS.length)];
@@ -2137,7 +2139,7 @@ document.getElementById('rsClose').onclick = ()=>document.getElementById('result
 // ================= 초기화 =================
 $('btnToday').onclick = ()=>spend('today', doToday);
 $('btnMoney').onclick = ()=>spend('money', doMoney);
-$('btnLove').onclick = doLove; // 엽전은 상대 입력 완료 시 차감
+$('btnLove').onclick = doLove; // 이용권은 상대 입력 완료 시 차감
 $('btnWork').onclick = ()=>spend('work', doWork);
 $('btnPeople').onclick = ()=>spend('people', doPeople);
 $('btnHealth').onclick = ()=>spend('health', doHealth);
@@ -2211,7 +2213,7 @@ async function saveProfiles(){
   if (user && !user.sid && profiles[activeIdx]) user.sid = profiles[activeIdx].sid;
 }
 
-// --- 엽전: 서버 검증 차감 ---
+// --- 이용권: 서버 검증 차감 ---
 async function spend(key, fn){
   const c = costFor(key);
   if (c === 0) { toast('단골 패스 손님은 공짜다 멍! 🐕'); markSeen(key); fn(); return; }
@@ -2222,7 +2224,7 @@ async function spend(key, fn){
     coins = r.data;
   } else coins -= c;
   updateCoins();
-  toast(`엽전 ${c}개 잘 받았다 멍! (잔액 ${coins}개)`);
+  toast(`이용권 ${c}회 잘 받았다 멍! (잔액 ${coins}회)`);
   markSeen(key); fn();
 }
 
@@ -2290,8 +2292,8 @@ document.getElementById('shopAd').onclick = async ()=>{
     else coins = Math.min(COIN_CAP, coins + 3);
     updateCoins();
     document.getElementById('shopBalance').textContent = coins;
-    btn.disabled = false; btn.textContent = '📺 광고 보고 엽전 +3 (오늘 '+s.n+'/3회)';
-    toast('광고 봐줘서 고맙다 멍! 엽전 +3 🪙');
+    btn.disabled = false; btn.textContent = '📺 광고 보고 이용권 +3 (오늘 '+s.n+'/3회)';
+    toast('광고 봐줘서 고맙다 멍! 이용권 +3 🎫');
   }, 1800);
 };
 document.getElementById('shopSub').onclick = async ()=>{
@@ -2336,11 +2338,11 @@ async function kakaoAuth(){
 }
 document.getElementById('btnKakao').onclick = kakaoAuth;
 
-// ================= v13: PortOne 실결제 (엽전 일회성 구매) =================
+// ================= v13: PortOne 실결제 (이용권 일회성 구매) =================
 // TODO: PortOne 콘솔에서 발급한 값으로 교체 (테스트 채널 → 실채널 순)
 const PORTONE_STORE_ID = 'store-0ed825d6-b409-4d40-9269-430c587f2a04';
 const PORTONE_CHANNEL_KEY = 'channel-key-e4a46305-a245-4073-8f35-912d711b3335';
-const COIN_PRODUCTS = { coin10:{amount:1200, coins:10, name:'엽전 주머니 10개'}, coin40:{amount:3900, coins:40, name:'엽전 꾸러미 40개'} };
+const COIN_PRODUCTS = { pass3:{amount:900, coins:3, name:'운세 이용권 3회'}, pass10:{amount:1900, coins:10, name:'운세 이용권 10회'}, pass30:{amount:2900, coins:30, name:'운세 이용권 30회'}, pass50:{amount:4900, coins:50, name:'운세 이용권 50회'} };
 async function buyCoins(product){
   const p = COIN_PRODUCTS[product];
   if (!p) return;
@@ -2363,15 +2365,17 @@ async function buyCoins(product){
     if (error || !data || !data.ok){ console.warn('결제 검증 실패', error, data); toast('결제 검증 실패다 멍. 잠시 후 잔액 확인해라 멍!'); return; }
     coins = data.coins; updateCoins();
     const bal = document.getElementById('shopBalance'); if (bal) bal.textContent = coins;
-    toast(`${data.label} 충전 완료다 멍! (+${data.granted}, 잔액 ${coins}개) 🪙`);
+    toast(`${data.label} 충전 완료다 멍! (+${data.granted}, 잔액 ${coins}개) 🎫`);
   } catch(e){ console.warn('결제 에러', e); toast('결제 오류: ' + ((e && (e.message||e.code)) || JSON.stringify(e)).slice(0,120)); }
 }
-document.getElementById('buyCoin10').onclick = ()=> buyCoins('coin10');
-document.getElementById('buyCoin40').onclick = ()=> buyCoins('coin40');
+document.getElementById('buyPass3').onclick = ()=> buyCoins('pass3');
+document.getElementById('buyPass10').onclick = ()=> buyCoins('pass10');
+document.getElementById('buyPass30').onclick = ()=> buyCoins('pass30');
+document.getElementById('buyPass50').onclick = ()=> buyCoins('pass50');
 
 // ================= v13: 프로필 전체 초기화 =================
 async function resetProfiles(){
-  if (!confirm('정말 모든 프로필(닉네임·생년월일)을 초기화할까요?\n저장된 사주와 오늘 본 운세·구매 기록이 삭제되고 처음 입력 화면으로 돌아갑니다.\n(엽전 잔액과 로그인은 유지됩니다)')) return;
+  if (!confirm('정말 모든 프로필(닉네임·생년월일)을 초기화할까요?\n저장된 사주와 오늘 본 운세·구매 기록이 삭제되고 처음 입력 화면으로 돌아갑니다.\n(이용권 잔액과 로그인은 유지됩니다)')) return;
   try { if (cloud && sb && myUid) { const r = await sb.from('profiles').delete().eq('user_id', myUid); if (r.error) console.warn('클라우드 프로필 삭제 경고:', r.error.message); } }
   catch(e){ console.warn('클라우드 프로필 삭제 실패:', e); }
   try {
